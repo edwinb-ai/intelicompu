@@ -1,5 +1,5 @@
 #%% [markdown]
-# # Regresión (Simple)
+# # _Regresión simple_ (con Máquinas de Soporte Vectorial).
 
 #%% [markdown]
 # ## 1. Introducción
@@ -10,6 +10,7 @@
 # 1. _Ajustar_ la mejor linea recta a un conjunto de datos, y con esto se cumplen dos subobjetivos:
 # 
 # a. Encontrar los _parámetros_ de la mejor linea recta. Estos pueden ser lo que se busca originalmente en algún tipo de experimento diseñado.
+# 
 # b. Realizar predicciones en base a los datos y la mejor linea recta. Esta linea recta se puede generalizar y dado un cierto _intervalo de
 # confianza esto puede significar que las predicciones son válidas.
 #
@@ -29,8 +30,8 @@
 # Normalmente se necesitan dos ecuaciones diferentes para dos incógnitas, y esto es lo que se planea realizar. Al menos es una de las formas de realizar
 # esta determinación. Pero este modelo de _regresión lineal ordinaria_ se basa en que los **errores** deben de ser minimizados. ¿Qué tipo de errrores?
 # Es esta pregunta la que introduce la siguiente _función de costo_ que debe de ser minimizada: 
-# $$ RSS = \sum_{i=1}^{N} \hat{\epsilon_i}^2 =  \sum_{i=1}^{N} \left(y_i - \left(\alpha + \beta x_i \right)\right)^2 ,$$
-# donde $N$ es el número total de valores tanto en $\mathbf{X}$ como en $\mathbf{Y}$ y $\hat{\epsilon_i}$ son los errores de _predicción_ respecto a los
+# $$ RSS = \sum_{i=1}^{N} \hat{\varepsilon_i}^2 =  \sum_{i=1}^{N} \left(y_i - \left(\alpha + \beta x_i \right)\right)^2 ,$$
+# donde $N$ es el número total de valores tanto en $\mathbf{X}$ como en $\mathbf{Y}$ y $\hat{\varepsilon_i}$ son los errores de _predicción_ respecto a los
 # _reales_, esto es, entre $\mathbf{Y}$ y $\mathbf{\hat{Y}}$.
 # Existe una forma cerrada (expresiones analíticas que se obtienen a partir
 # de teoremas del cálculo diferencial), sin embargo esto puede ser minimizado también mediante métodos numéricos (como [descenso de gradiente](https://en.wikipedia.org/wiki/Gradient_descent)
@@ -41,12 +42,12 @@
 # Para que este modelo sea viable, confiable y aplicable, se deben cumplir varias hipótesis las cuales son difíciles de satisfacer en situaciones de datos reales
 # pero que es común encontrar que se satisfacen en experimentos diseñados y/o controlados. Las hipótesis son:
 #
-# 1. El **valor esperado** de los errores $\epsilon$ debe cumplir que $E\left(\epsilon \vert x\right) = 0.$
-# 2. La **varianza** de los errores debe de ser _finita_, _constante_ y _conocida_ tal que cumpla $V\left(\epsilon \vert x\right) = \sigma^2 < \infty.$
-# 3. **No** existe una _correlación_ entre los errores tal que $Cov\left(\epsilon_i \vert \epsilon_j\right) = 0.$
+# 1. El **valor esperado** de los errores $\varepsilon$ debe cumplir que $E\left(\varepsilon \vert x\right) = 0.$
+# 2. La **varianza** de los errores debe de ser _finita_, _constante_ y _conocida_ tal que cumpla $V\left(\varepsilon \vert x\right) = \sigma^2 < \infty.$
+# 3. **No** existe una _correlación_ entre los errores tal que $Cov\left(\varepsilon_i \vert \varepsilon_j\right) = 0.$
 #
 #
-# Lo más _común_ es asumir que los _errores_ siguen una distribución _normal_ tal que $\epsilon \vert x \sim \mathcal{N}\left(0, \sigma^2\right)$
+# Lo más _común_ es asumir que los _errores_ siguen una distribución _normal_ tal que $\varepsilon \vert x \sim \mathcal{N}\left(0, \sigma^2\right)$
 # y esta es la hipótesis más _fuerte_ y _restrictiva_ para este modelo; cuando esto no sucede se deben emplear métodos _no paramétricos_ que puedan resolver
 # esta limitante, o bien, acudir a métodos más robustos que pertenecen a la rama de la inteligencia computacional como se verá posteriormente en esta libreta.
 #%% [markdown]
@@ -62,7 +63,7 @@
 # NOTA: **No** se llevarán a cabo las demostraciones en esta libreta, y la presentación de las ecuaciones será meramente ilustrativa.
 # Para aquella persona que desee conocer más al respecto, leer con detalle las referencias 4 y 5.
 # 
-# La formulación estándar de las SVM para regresión se conoce como $\epsilon-SVR$ (epsilon support vector regression, en inglés). Para realizar la formulación
+# La formulación estándar de las SVM para regresión se conoce como $\varepsilon-SVR$ (epsilon support vector regression, en inglés). Para realizar la formulación
 # se debe tener un conjunto de datos ${(x_1, y_1),\cdots,(x_n,y_n)} \subset \mathbb{H}\times\mathbb{R}$, donde los valores $x_1 \cdots x_n$ son elementos
 # de un espacio general $\mathbb{H}$ dado que en el caso más general pueden contener cualquier número de _características_, y no están restringidas
 # a pertenecer el conjunto $\mathbb{R}$.
@@ -84,14 +85,14 @@
 # \frac{1}{2} \vert \vert \omega \vert \vert^2 \\[2ex]
 # & \text{sujeto a }
 # \begin{cases}
-# y_i - \langle \omega, x_i \rangle - b \leq \epsilon, \\[2ex]
-# \langle \omega, x_i \rangle + b - y_i \leq \epsilon .
+# y_i - \langle \omega, x_i \rangle - b \leq \varepsilon, \\[2ex]
+# \langle \omega, x_i \rangle + b - y_i \leq \varepsilon .
 # \end{cases}
 # \end{aligned}
 # $$
 # 
 # Este problema es en realidad un problema de _optimización convexa_ que es _viable_ cuando $f$ existe y aproxima todo los pares $(x_n,y_n)$ con precisión
-# $\epsilon.$ Sin embargo, como en el caso de SVM de margen suave, existe una versión análoga para el caso de SVR donde se introducen dos variables
+# $\varepsilon.$ Sin embargo, como en el caso de SVM de margen suave, existe una versión análoga para el caso de SVR donde se introducen dos variables
 # que permitan un cierto margen de error, por lo que se puede reformular todo el problema de optimización anterior por el siguiente:
 # $$
 # \begin{aligned}
@@ -99,8 +100,8 @@
 # \frac{1}{2} \vert \vert \omega \vert \vert^2 + C \sum_{i=1}^{N} (\xi_i - \xi_i^{\star}) \\[2ex]
 # & \text{sujeto a }
 # \begin{cases}
-# y_i - \langle \omega, x_i \rangle - b &\leq \epsilon + \xi_i, \\[2ex]
-# \langle \omega, x_i \rangle + b - y_i &\leq \epsilon + \xi_i^{\star}, \\[2ex]
+# y_i - \langle \omega, x_i \rangle - b &\leq \varepsilon + \xi_i, \\[2ex]
+# \langle \omega, x_i \rangle + b - y_i &\leq \varepsilon + \xi_i^{\star}, \\[2ex]
 # \xi_i, \xi_i^{\star} &\geq 0 .
 # \end{cases}
 # \end{aligned}
@@ -114,7 +115,7 @@
 # tal que se obtiene la siguiente ecuación:
 # $$ f(x) = \sum_{i=1}^{N} (\alpha_i - \alpha_i^{\star}) k(x_i, x) + b , $$ donde se tiene que
 # $$\omega = \sum_{i=1}^{N} (\alpha_i - \alpha_i^{\star}) \phi(x_i)$$
-# y $k(x_i, x) = \vphi(x_i) \vphi(x)$ es un _kernel de Mercer_ (revisar la referencia 4 para más información).
+# y $k(x_i, x) = \varphi(x_i) \varphi(x)$ es un _kernel de Mercer_ (revisar la referencia 4 para más información).
 # ¿Cómo se determinan? Claro está que sin estos valores **no** se puede
 # encontrar el modelo lineal buscado.
 #
@@ -122,7 +123,21 @@
 # NOTA: **No** se llevarán a cabo las demostraciones en esta libreta, y la presentación de las ecuaciones será meramente ilustrativa.
 # Para aquella persona que desee conocer más al respecto, leer con detalle la referencia 3 y 6.
 #
+# Continuando con el argumento anterior, dado que $\omega$ está escrito en función de $\alpha_i - \alpha_i^{\star}$ se puede entonces determinar estos
+# parámetros en términos de $\omega$ usando la siguiente [_funcional de riesgo_](https://en.wikipedia.org/wiki/Statistical_risk):
+# $$ R_{reg}[f] = \frac{1}{2} \vert \vert \omega \vert \vert^2 + C \sum_{i=1}^{N} L_{\varepsilon}(y) ,$$
+# donde $L_{\varepsilon}(y)$ es la [_función de pérdida_](https://en.wikipedia.org/wiki/Loss_function) llamada _$\varepsilon$-insensitive loss function_ definida
+# originalmente por Vladimir Vapnik en la formulación original de este algoritmo como sigue:
+# $$ 
+# L_{\varepsilon}(y) = 
+# \begin{cases}
+# \qquad 0 , & \quad \text{para}\ \vert f(x) - y \vert < \varepsilon, \\[2ex]
+# \vert f(x) - y \vert - \varepsilon , & \quad \text{cualquier otro caso.}
+# \end{cases}
+# $$
 # 
+# Como se puede observar, este problema de optimización es complejo y difícil de resolver con métodos tradicionales. En esta libreta se empleará la librería estándar
+# [libsvm](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) que viene en la librería de Python _scikit-learn_ para realizar los ejemplos a continuación.
 #%%
 # Realizar todas las importaciones necesarias
 import numpy as np
@@ -149,8 +164,21 @@ firefly_arch = os.path.abspath('metaheuristicas/firefly/firefly.py')
 
 #%% [markdown]
 # ## 1. Complejidad del modelo (sobreajuste)
-# En esta primera sección se implementa una regresión utilizando _máquinas de soporte vectorial_ (MSV) aplicadas para el problema de
-# regresión 
+# En esta primera sección se implementa una regresión utilizando SVM aplicadas para el problema de
+# regresión lineal. Sin embargo, como se ha visto en la teoría, las SVM pueden tomar una _función kernel_ para realizar un _mapeo_ de los datos
+# originales a otro espacio para realizar el ajuste lineal. Sin embargo, cuando los datos son _lineales por naturaleza_ emplear un _kernel_
+# puede provocar un **sobreajuste** del modelo.
+# 
+# ### 1.1. Sobreajuste
+# El _sobreajuste_ sucede cuando un modelo aprende muchas de las características base del conjunto de datos de entranamiento. Esto implica que
+# cuando se aplica el método a datos diferentes el modelo _no_ puede diferenciar correctamente entre datos que **son** una características y 
+# datos que **no lo son.** Esto es fundamental, sobre todo en las SVM. ¿Porqué?
+#
+# Cuando se busca emplear las SVM se pretende que el número de vectores soporte (revisar referencia 3) sea muy pequeño tal que con un número limitado
+# de datos el modelo tenga un buen ajuste; esta es una característica y ventaja de la naturaleza de las SVM. Sin embargo, cuando el modelo empieza a tener
+# una **alta complejidad**, i.e. que tenga muchos hiperparámetros por determinar, el modelo describe a los datos de una forma errónea a su verdadera
+# correlación. Una forma fácil de identificar el sobreajuste en un modelo de SVM es que el número de vectores soporte es muy grande, llegando al límite
+# de que cada dato dentro del conjunto de datos es un vector soporte. Esto se estudiará con más detalle en el ejemplo a continuación.
 #%%
 # Crear un problema simple de regresión, se espera que sea totalemente
 # correlacionado y lineal
@@ -161,15 +189,19 @@ plt.figure(figsize=(10, 8))
 plt.scatter(X, y)
 plt.show()
 #%% [markdown]
-# Como se esperaba el modelo es lineal... (hacer más énfasis de esto, y el ruido)
+# Como se esperaba el modelo es lineal pero algo importante de notar es la implementación de _scikit-learn_ donde se tuvo que especificar
+# un parámetro de _ruido_ y un parámetro de _bias_. En particular esto se tiene que hacer dado que la implementación crearía un modelo lineal
+# perfecto, y se busca que el modelo tenga al menos una cierta _dispersión_ en los datos.
 #%%
 # Separar el conjunto de datos en prueba y entrenamiento
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=10)
 #%% [markdown]
-# ## 1.1. Kernel _lineal_
-# Mencionar alguna hipótesis de que este kernel es el que se espera que sea mejor
+# ## 1.2. Kernel _lineal_
+# Esta implementación de la SVM corresponde al modelo lineal que se presentó en la sección de teoría. Para este caso, se espera que este kernel
+# sea el mejor y que tenga una muy buena representación respecto a la correlación de los datos. Si llegara a tener _sobreajuste_ se puede deber
+# a la mala optimización o ajuste de los hiperparámetros.
 #%%
-# Crear un regresor
+# Crear un regresor con kernel lineal
 lineal = SVR(kernel='linear')
 # Definir parámetros para la validación cruzada
 params = {'C': sp_int(2**(-15), 2**15), 'epsilon': sp_int(2**(-8), 2**8)}
@@ -179,7 +211,14 @@ n_iter=25, cv=10, iid=False, n_jobs=-1)
 # Ajustar el modelo
 reg_lin.fit(x_train, y_train)
 #%% [markdown]
-# Una nota sobre RandomizedSearchCV (porqué usarlo, porqué sirve, y cuando es útil usarlo)
+# ### Una nota sobre RandomizedSearchCV
+# En esta parte del código se empleó la función [RandomizedSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html)
+# para realizar validación cruzada del kernel lineal. Esto se realizó dado que el rango de búsqueda para los hiperparámetros es muy grande, y el método
+# usual de Grid Search tardaría demasiado tiempo.
+# En particular, _Randomized Search Cross Validation_ emplea el uso de distribuciones de probabilidad para realizar un muestreo del espacio de
+# búsqueda y crear un conjunto óptimo de hiperparámetros. Es importante notar que esto es _aleatorio_ y que **no** se busca el espacio completo
+# por lo que es posible que no siempre se obtengan los mismos resultados. Después en esta libreta se empleará otro método mucho más eficiente
+# pero se deja esta por referencia de que también es una opción viable y rápida para obtener casi los mismos resultados que Grid Search.
 #%%
 # Mostrar los méjores parámetros
 lineal = reg_lin.best_estimator_
@@ -188,25 +227,59 @@ print(lineal)
 # Mostrar el R^2
 print(lineal.score(x_train, y_train))
 #%% [markdown]
-# Mencionar que $R^2$ no es la mejor métrica y que se prefiere el MSE
+# Aunque aquí estamos mostrando el valor de correlación $R^2$ este valor **no** es una buena métrica para este tipo de modelos. Este
+# valor numérico sólo corresponde a la _correlación_ entre los datos, pero en particular nos importa _minimizar_ el error entre
+# la predicción y los valores reales del conjunto de datos. Por lo tanto, es muy común (y se emplea en esta libreta) el uso de otro
+# tipo de métricas, en especial el [error cuadrático medio](https://en.wikipedia.org/wiki/Mean_squared_error), definido matemáticamente
+# como:
+# $$ MSE = \frac{1}{N} \sum_{i=1}^{N} (Y_i - \hat{Y}_i)^2 ,$$
+# donde $Y$ son los datos reales y $\hat{Y}$ son los datos predichos por el modelo.
 #%%
 # Con este regresor, realizar predicciones
 y_pred = lineal.predict(x_test)
 # Mostrar solo algunos valores para visualización
 y_pred[:5]
 #%%
-# Calcular el error entre entrenamiento y prueba
-print('MSE para entrenamiento: {0}'.format(np.abs(mean_squared_error(y_train, lineal.predict(x_train)))))
-print('MSE para prueba: {0}'.format(np.abs(mean_squared_error(y_test, y_pred))))
+# Calcular el error entre entrenamiento y prueba, se emplea la raíz cuadrada dado que MSE puede
+# ser un número muy grande
+print('RMSE para entrenamiento: {0}'.format(np.sqrt(np.abs(mean_squared_error(y_train, lineal.predict(x_train))))))
+print('RMSE para prueba: {0}'.format(np.sqrt(np.abs(mean_squared_error(y_test, y_pred)))))
 #%% [markdown]
-# Dado que los errores son muy semejantes, **NO** existe sobreajuste del modelo. Elaborar este argumento un poco más...
+# Dado que los errores son muy semejantes, **NO** existe sobreajuste del modelo. ¿A qué se debe esto? Es relativamente simple de ver.
+# El error cuadrático medio es una medida de el desempeño del modelo para predecir los valores y la comparación con los datos
+# originales, entonces, cuando el error es muy grande significa que el modelo **no predice** correctamente, no tiene la información
+# suficiente de la _correlación_ entre los datos.
+# 
+# En particular, cuando el modelo está _sobreajustado_ significa que ha tomado en cuenta muchas de las características de un subconjunto
+# de los datos que **no** están presentes en todo el conjunto de datos por completo. De esta forma, el error será muy grande en un parte
+# del proceso (e.g. la predicción del modelo) y será muy pequeño en la otra parte del proceso (e.g. el entrenamiento del modelo) debido
+# a que no existe una **generalización** del modelo para otro subconjunto de datos dentro del mismo conjunto de datos total.
+#
+# Sin embargo, en este caso los errores medidos son relativamente _cercanos_ entre sí, lo que significa que el modelo puede **generalizar**
+# efectivamente la _correlación_ de los datos, prediciendo correctamente los datos dentro de un margen de error.
 #%% [markdown]
 # ## 1.2. Kernel _base radial._
-# Mencionar lo que se espera, que no va a ser muy bueno porque no es el espacio correcto
-# (tener un mejor argumento, con referencia si es posible)
+# El kernel de _base radial_ se define como
+# $$ K(\mathbf{x},\mathbf{x'}) = \exp{ \left( - \gamma \vert \vert \mathbf{x} - \mathbf{x'} \vert \vert^2 \right)}$$
+# y es importante notar que cuando se tiene el límite $\gamma \to 0$ entonces se recupera el _modelo lineal_ dado que
+# $$ \lim_{\gamma \to 0} \exp{ \left( - \gamma \vert \vert \mathbf{x} - \mathbf{x'} \vert \vert^2 \right)} = 1$$
+# y usando la descripción presentada al principio de esta libreta, entonces el modelo se convierte a una función linea, recuperando entonces
+# la regresión lineal con SVM.
+# 
+# De esta forma se espera que el valor de $\gamma$ que se encuentre sea pequeño, cercano a 0. Sin embargo, aunque esto se logre, este _kernel_
+# se espera que tenga un bajo desempeño dado que tiene que mapear los datos a un espacio diferente y ahí realizar la separación lineal. Esto
+# _no_ está garantizado y por tanto se _espera_ que exista un alto número de vectores soporte que sean empleados para crear el modelo.
 #%% [markdown]
-# ## Sección _bonus_. Hablar sobre metaheurísticas (muy rápido) y el método que se pretende seguir, mencionar porqué es útil
-# porqué será necesario utilizarlo...
+# ## Sección _bonus_. _Metaheurísticas._
+# En esta sección se menciona rápidamente un método para realizar el ajuste de los hiperparámetros. En particular se desea minimizar el error
+# de predicción y esto se puede traducir a la elección correcta de hiperparámetros que emplea el modelo tal que sean los mejores que efectivamente
+# _minimizan_ algún tipo de métrica como el MSE.
+#
+# Las **metaheurísticas** son métodos de _optimización_ muy robustos que permiten la resolver problemas de optimización en muchas dimensiones, para
+# funciones multimodales entre otras cosas.
+#
+# En particular, en esta libreta se emplean para el ajuste de hiperparámetros de las SVM, pero dado que no es el propósito de esta libreta realizar
+# un estudio detallado y sistemático de estos algoritmos, sólo se menciona su mecánica general y en otra libreta se hará este estudio.
 #%% [markdown]
 # Se envuelve al objeto SVR en un función para después hacer uso de una metaheurística
 # y poder realizar ajuste adecuado de hiperparámetros.
@@ -228,7 +301,7 @@ n_pliegues = 10
 skf = KFold(n_splits=n_pliegues)
 
 # Estos arreglos guardarán los resultados finales
-# Este arreglo guarda los parámetros óptimos, C y gamma
+# Este arreglo guarda los parámetros óptimos; gamma, C y epsilon
 res_vals = np.zeros(3)
 # Este arreglo guarda el valor de accuracy total
 fnc_total = np.array([])
@@ -237,15 +310,15 @@ fnc_total = np.array([])
 for tr, ts in skf.split(x_train, y_train):
     # Estos son los parámetros de entrada del Firefly Algorithm
     kwargs = {'func': svr_fnc, 'dim': 3, 'tam_pob': 20, 'alpha': 0.9, 'beta': 0.2, 'gamma': 1.0, 
-    'inf': 2**(-4), 'sup': 2**3}
+    'inf': 2**(-4), 'sup': 2**4}
     # Se crea una instancia del Firefly Algorithm
     fa_solve = FAOpt(**kwargs, args=(X[tr], X[ts], y[tr], y[ts]))
     # Se llama al método que resuelve la optimización
-    res = fa_solve.optimizar(10)
+    res, fnc = fa_solve.optimizar(15, optim=True)
     
     # Se guardan los resultados de cada iteración
     res_vals += res
-    fnc_total = np.append(fnc_total)
+    fnc_total = np.append(fnc_total, fnc)
 
 # Los valores de los parámetros C y gamma deben estar normalizados, se divide por
 # el número de pliegues
@@ -264,13 +337,13 @@ print(reg_rbf.score(x_test, y_test))
 print('RMSE para entrenamiento: {0}'.format(np.sqrt(np.abs(mean_squared_error(y_train, reg_rbf.predict(x_train))))))
 print('RMSE para prueba: {0}'.format(np.sqrt(np.abs(mean_squared_error(y_test, y_pred)))))
 #%% [markdown]
-# Mencionar la variación muy grande entre errores para fortalecer el argumento de sobreajuste...
-#%% [markdown]
-# Ahora se puede visualizar el resultado graficando ambos regresores
+# Ahora bien, la variación de los errores encontrados _no_ es considerablemente grande, pero lo es. Esto puede significar que existe sobreajuste
+# como se había conjeturado, pero no es una buena forma de comparación. Como se había comentado, otra forma útil de corroborar este hecho
+# es encontrando el número de vectores soporte de cada modelo; entre mayor sea el modelo, es más complejo y por tanto puede existir un sobreajuste.
 #%%
 # Código tomado de
 # https://scikit-learn.org/stable/auto_examples/svm/plot_svm_regression.html#sphx-glr-auto-examples-svm-plot-svm-regression-py
-# y adaptado para esta libreta
+# y adaptado para esta libreta.
 lw = 2
 
 svrs = [lineal, reg_rbf]
@@ -299,10 +372,19 @@ fig.suptitle("Support Vector Regression", fontsize=14)
 plt.show()
 #%% [markdown]
 # ## Conclusiones
-# 1. Hablar acerca del sobreajuste de los modelos...
-# 2. Hablar del número de vectores soporte para cada kernel
-# 3. Hablar de la predicción de cada uno
-# 4. Hablar de la complejidad (número de hiperparámetros de cada modelo)
+#
+# 1. Como se puede ver, existe un número mayor de vectores soporte para el kernel _rbf_, que era de esperarse. La figura que crea la gráfica puede
+# mejorarse si el valor de $\gamma$ es más pequeño, pero aquí lo importante es el número de vectores soporte. Claramente este caso es lineal
+# y debe utilizarse un kernel _lineal_ para este problema.
+#
+# 2. La parte importante de crear estos modelos de inteligencia computacional para _regresión_ es la **predicción**. ¿Qué tan bien predicen
+# estos modelos? Por el _análisis_ de los errores encontrados y los coeficientes de correlación, claramente el kernel _lineal_ es el mejor
+# pero se puede argumentar que dentro de un margen de error el kernel _rbf_ es aceptable. 
+#
+# 3. Por último, siempre es preferible un modelo que tenga una **menor complejidad**, i.e. el número de hiperparámetros es pequeño. Esto porque
+# facilita la búsqueda de estos valores, es más eficiente y se puede evitar en gran medida el problema de _sobreajuste._ En dado caso que
+# el problema lo requiera y se necesite un kernel de tipo _rbf_ se puede emplear una _metaheurística_ para acelerar considerablemente la búsqueda
+# de los hiperparámetros.
 #%% [markdown]
 # ## 2. Aplicación: aceleración de la gravedad (_revisited_)
 # Mencionar sobre este experimento, poner ecuaciones base, qué se pretende y explicar que este tipo de
@@ -367,10 +449,10 @@ def svr_fnc(x, x_tr=None, x_ts=None, y_tr=None, y_ts=None):
     reg.fit(x_tr, y_tr)
     y_pred = reg.predict(x_ts)
     # Siempre se buscan valores positivos del accuracy
-    score = np.abs(mean_squared_error(y_ts, y_pred))
+    score = np.sqrt(np.abs(mean_squared_error(y_ts, y_pred)))
     # score = reg.score(x_ts, y_ts)
 
-    return -score
+    return score
 #%% [markdown]
 # 2.2. _Bootstrap_ y el intervalo de confianza de múltiples muestreos
 # Hablar sobre la técnica de bootstrap y si es posible, alguna imagen o referencia
@@ -515,3 +597,4 @@ plt.show()
 # 4. pdf de Smolas
 # 5. pdf de Burges
 # 6. pdf de Basak
+# 7. [Asymptotic Behaviors of Support Vector Machines with Gaussian Kernel](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.141.880&rep=rep1&type=pdf)
