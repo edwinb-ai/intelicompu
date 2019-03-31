@@ -141,11 +141,12 @@ from scipy.stats import randint as sp_int
 # Definir el conjunto de colores de Seaborn
 sns.set()
 #%%
+import os
 # Cargar el Firefly Algorithm, la metaheurística para encontrar los hiperparámetros adecuados
-# NOTA: cambiar este directorio por el adecuado si es que esta libreta se corre de nuevo
-%load '/home/edwin/Documents/UG-Fisica/Octavo_Semestre/Desarrollo_Experimental/ejercicios/firefly/firefly.py'
+# NOTA: Este comando carga todos los contenidos de firefly, usarlo bajo discreción
+firefly_arch = os.path.abspath('metaheuristicas/firefly/firefly.py')
+%run $firefly_arch
 
-import firefly.firefly as fa
 #%% [markdown]
 # ## 1. Complejidad del modelo (sobreajuste)
 # En esta primera sección se implementa una regresión utilizando _máquinas de soporte vectorial_ (MSV) aplicadas para el problema de
@@ -238,7 +239,7 @@ for tr, ts in skf.split(x_train, y_train):
     kwargs = {'func': svr_fnc, 'dim': 3, 'tam_pob': 20, 'alpha': 0.9, 'beta': 0.2, 'gamma': 1.0, 
     'inf': 2**(-4), 'sup': 2**3}
     # Se crea una instancia del Firefly Algorithm
-    fa_solve = fa.FAOpt(**kwargs, args=(X[tr], X[ts], y[tr], y[ts]))
+    fa_solve = FAOpt(**kwargs, args=(X[tr], X[ts], y[tr], y[ts]))
     # Se llama al método que resuelve la optimización
     res = fa_solve.optimizar(10)
     
@@ -392,7 +393,7 @@ for i in range(n_iter):
     kwargs = {'func': svr_fnc, 'dim': 2, 'tam_pob': 20, 'alpha': 0.9, 'beta': 0.2, 'gamma': 1.0, 
     'inf': 2**(-8), 'sup': 2**8}
     # Se crea una instancia del Firefly Algorithm
-    fa_solve = fa.FAOpt(**kwargs, args=(x_train, x_test, y_train, y_test))
+    fa_solve = FAOpt(**kwargs, args=(x_train, x_test, y_train, y_test))
     # Se llama al método que resuelve la optimización
     res, fnc = fa_solve.optimizar(10, optim=True)
 
