@@ -1,2 +1,4 @@
 # Para los archivos compilados de Python
 __pycache__/
+# Para los checkpoints de libretas
+*checkpoint*
