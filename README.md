@@ -20,15 +20,14 @@ Este repositorio cuenta con diferentes secciones del área de inteligencia compu
 
 3. _Procesamiento de datos_
 
-4. _Inteligencia artificial_
+4. _Inteligencia Artificial_
 
 5. _Optimización inteligente y metaheurísticas_
 
 ## Contenido general
 
 Cada subdirectorio cuenta con [Jupyter Notebooks](https://jupyter.org) escritas por completo en el lenguaje de programación [Python](https://www.python.org),
-adicionalmente se cuenta con copias idénticas escritas en [Markdown](https://daringfireball.net/projects/markdown/) para su fácil edición utilizando
-[jupytext](https://jupytext.readthedocs.io/en/latest/#).
+que contienen información general y autocontenida de cada tema por sección.
 
 ### Tipos de archivos
 
