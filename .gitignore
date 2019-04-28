@@ -2,3 +2,5 @@
 __pycache__/
 # Para los checkpoints de libretas
 *checkpoint*
+# Ignorar los pipfile
+Pipfile
