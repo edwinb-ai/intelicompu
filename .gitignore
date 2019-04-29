@@ -3,4 +3,7 @@ __pycache__/
 # Para los checkpoints de libretas
 *checkpoint*
 # Ignorar los pipfile
-Pipfile
+Pipfile*
+# Ignorar lo de PyCharm
+.idea/*
+events*
