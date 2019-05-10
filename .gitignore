@@ -7,3 +7,5 @@ Pipfile*
 # Ignorar lo de PyCharm
 .idea/*
 events*
+# Ignorar datos ocultos de macOS
+.DS*
