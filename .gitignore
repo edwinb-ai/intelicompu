@@ -9,3 +9,5 @@ Pipfile*
 events*
 # Ignorar datos ocultos de macOS
 .DS*
+# Ignorar metadatos de VSCode
+*/.vscode/*
