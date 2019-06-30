@@ -9,5 +9,9 @@ Pipfile*
 events*
 # Ignorar datos ocultos de macOS
 .DS*
+<<<<<<< 08-loss-funcs
 # Ignorar metadatos de VSCode
+=======
+# Ignorar los datos de VSCode
+>>>>>>> Se actualiza el gitignore para los metadatos de VSCode
 */.vscode/*
