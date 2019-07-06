@@ -24,7 +24,7 @@ class kNearestNeighbors:
         """
         self.kd_tree = None
         self.kn = num_vecinos
-        self.dicc_probabilidades = dict()
+        self.dicc_probabilidades = {}
         self.etiquetas = None
 
     def entrenamiento(self, datos, clases):
