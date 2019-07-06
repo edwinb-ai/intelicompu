@@ -2,7 +2,7 @@ import numpy as np
 
 
 class DiscriminanteLineal:
-    """Discriminante Lineal del Fisher.
+    """Discriminante Lineal de Fisher.
 
     Esta es una implementación del discriminante lineal de Fisher utilizando
     solamente numpy como dependencia. Este discriminante clasifica un conjunto
@@ -21,9 +21,9 @@ class DiscriminanteLineal:
     def __init__(self):
         """Inicializar todos los atributos vacíos siempre."""
         self.inv_covarianza = None
-        self.medias = list()
+        self.medias = []
         self.a_priori = np.array([])
-        self.resultado_parcial = list()
+        self.resultado_parcial = []
 
     def inicializar(self, datos, clases):
         """Se calculan las probabilidades a priori, las medias aritméticas de
