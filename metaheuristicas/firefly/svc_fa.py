@@ -8,7 +8,7 @@ from sklearn.svm import SVC
 from sklearn.model_selection import cross_val_score, StratifiedKFold, train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.preprocessing import MinMaxScaler
-import firefly.firefly as fa
+import firefly as fa
 
 
 def svc_fnc(x, x_tr=None, x_ts=None, y_tr=None, y_ts=None):
