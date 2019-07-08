@@ -85,7 +85,7 @@ class GNaiveBayes:
             2.0 * np.pi
         )
 
-    def prediccion(self, datos):
+    def predecir(self, datos):
         """Utilizando los valores de entrenamiento se calcula la distancia de Mahalanobis
         de cada punto a predecir y se devuelve el valor con la mayor probabilidad a posteriori
         como la clase a la que pertenece ese valor.
