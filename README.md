@@ -1,8 +1,11 @@
 # Inteligencia Computacional
 
 Este es un repositorio de algoritmos y métodos en el área de Inteligencia Computacional creado
-por Edwin Armando Bedolla Montiel y Luis Eduardo Cerna como parte del Servicio Profesional
+por Edwin Armando Bedolla Montiel[^1] y Luis Eduardo Cerna[^2] como parte del Servicio Profesional
 en la División de Ciencias e Ingenierías de la Universidad de Guanajuato.
+
+**NOTA:** Todos los documentos e implementaciones de código fueron hechos por Edwin Bedolla excepto donde se
+marque explícitamente el autor.
 
 ## Objetivo
 
@@ -20,18 +23,19 @@ Este repositorio cuenta con diferentes secciones del área de inteligencia compu
 
 3. _Procesamiento de datos_
 
-4. _Inteligencia Artificial_
+4. _Redes neuronales y aprendizaje profundo_
 
 5. _Optimización inteligente y metaheurísticas_
 
 ## Contenido general
 
 Cada subdirectorio cuenta con [Jupyter Notebooks](https://jupyter.org) escritas por completo en el lenguaje de programación [Python](https://www.python.org),
-que contienen información general y autocontenida de cada tema por sección.
+que contienen información general y autocontenida de cada tema por sección, además de un directorio completo de ejemplos con aplicaciones de los algoritmos
+desarrollados.
 
 ### Tipos de archivos
 
-Dentro de cada subdirectorio es posible que existan archivo de tipo `.py`, que son archivos nativos de Python. Este tipo de archivos existen porque los autores
+Dentro de cada subdirectorio es posible que existan archivos de tipo `.py`, que son archivos nativos de Python. Este tipo de archivos existen porque los autores
 crearon archivos para realizar las implementaciones y después generar Jupyter Notebooks. Sin embargo, mientras se especifique algo diferente, cada archivo debe
 poder ser ejecutado por sí mismo sin problema alguno, es decir, cada archivo debe ser autocontenido. En caso contrario, notificar a los autores sobre esto.
 
@@ -46,3 +50,8 @@ algunas otras cosas, como conjuntos de datos.
 
 Para la sección de _inteligencia artificial_ se emplea por completo [TensorFlow](https://www.tensorflow.org) junto con otras librerías adicionales, como
 [keras](https://keras.io) y [PyTorch](https://pytorch.org).
+
+### Contacto
+
+[^1]: developeredwin@gmail.com
+[^2]: le.cernaherrera@ugto.mx
