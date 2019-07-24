@@ -89,7 +89,7 @@ class kMeans:
                 self.centroides[k] = np.mean(v, axis=0)
 
         # Crear arreglo de etiquetas
-        y_etiquetas = np.zeros(datos.shape[0])
+        y_etiquetas = np.zeros(datos.shape[0], dtype=int)
         for k, v in self.clusters.items():
             for dato in v:
                 idx_dim, _ = np.where(datos == dato)
