@@ -43,7 +43,7 @@ class Poblacion:
         return self.valores
 
 
-class Optimizacion:
+class UMDA:
     """Implementación del algoritmo de optimización UMDA (Univariate Marginal Distribution Algorithm)
     que encuentra el mínimo de una función objetivo mediante el muestreo de una distribución normal.
 
@@ -58,9 +58,10 @@ class Optimizacion:
         poblacion_valores: Variable donde se guardará la información de las posibles soluciones.
         evaluaciones: Variables que guarda la información de evaluar la función en todos los elementos 
             que pertenecen a a poblacion_valores.
+        args: Tupla de argumentos adicionales que pueda tener la función para ser evaluada.
     
     """
-    def __init__(self, func, dim, limites, poblacion, iteraciones=100):
+    def __init__(self, func, dim, limites, poblacion, iteraciones=100, args=()):
         """Se inicializan todos los atributos excepto poblacion_valores y evaluaciones
         que cambian de acuerdo a la ejecución del código.
         """
@@ -72,6 +73,7 @@ class Optimizacion:
         self.pasos = iteraciones
         self.poblacion_valores = None
         self.evaluaciones = None
+        self.f_args = args
 
     def actualizar(self):
         """Crea un arreglo vacío donde se guardan los valores de poblacion_valores y sus evaluaciones
@@ -81,7 +83,7 @@ class Optimizacion:
         temp_arreglo = np.zeros((self.elementos, self.dimension + 1))
         temp_arreglo[:, :-1] = self.poblacion_valores
         temp_arreglo[:, -1] = np.array(
-            [self.objetivo(i) for i in self.poblacion_valores]
+            [self.objetivo(i, *self.f_args) for i in self.poblacion_valores]
         )
         # copiar el arreglo creado para evitar aliasing
         self.evaluaciones = np.copy(temp_arreglo)
@@ -104,6 +106,7 @@ class Optimizacion:
             self.actualizar()
             # ordenar los puntos dado el valor del objetivo, de mejor a peor
             self.evaluaciones = self.evaluaciones[self.evaluaciones[:, -1].argsort()]
+            self.evaluaciones = np.clip(self.evaluaciones[:, :-1], *self.lim)
             # escoger los q mejores
             q_mejores = self.evaluaciones[: self.mejores, :]
             # se toma el arreglo transpuesto para iterar sobre dimensión y no elementos
@@ -118,31 +121,3 @@ class Optimizacion:
         mínimo, el mejor resultado.
         """
         return self.evaluaciones[0, :]
-
-
-if __name__ == "__main__":
-
-    # Resolver el problema de la esfera
-    def esfera(x):
-        # considerando que x es un arreglo de numpy
-        return sum((x - 2.0) ** 2)
-
-    # instanciar al optimizador
-    optim_esfera = Optimizacion(esfera, 50, [-5.0, 10.0], 1000)
-    optim_esfera.optimizar()
-    print("Esfera")
-    print("Resultado: {}".format(optim_esfera.resultado[:-1]))
-    print("Valor mínimo: {}".format(optim_esfera.resultado[-1]))
-
-    # Resolver la función Rastrigin
-    def rastrigin(x):
-        # Mínimo de 0 en (0, ..., 0)
-        # considerando que x es un arreglo de numpy
-        return 10.0 * len(x) + sum(x ** 2 - 10.0 * np.cos(2.0 * np.pi * x))
-
-    # instanciar al optimizador
-    optim_trid = Optimizacion(rastrigin, 10, [-5.12, 5.12], 1000)
-    optim_trid.optimizar()
-    print("Rastrigin")
-    print("Resultado: {}".format(optim_trid.resultado[:-1]))
-    print("Valor mínimo: {}".format(optim_trid.resultado[-1]))
